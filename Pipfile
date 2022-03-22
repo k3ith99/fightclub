@@ -4,18 +4,18 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-
-[dev-packages]
 flask = "*"
-pytest = "*"
-pytest-describe = "*"
-pytest-cov = "*"
 flask-cors = "*"
 flask-login = "*"
 authlib = "*"
 requests = "*"
 jsonify = "*"
 werkzeug = "*"
+
+[dev-packages]
+pytest = "*"
+pytest-describe = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.9"
