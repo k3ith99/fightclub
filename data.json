@@ -5,7 +5,7 @@
   },
   {
     "user": "zahra",
-    "fights": ["samina"]
+    "fights": ["samina", "monia"]
   },
   {
     "user": "hamza",
@@ -61,7 +61,7 @@
   },
   {
     "user": "monia",
-    "fights": ["romeo"]
+    "fights": ["romeo", "zahra"]
   },
   {
     "user": "romeo",
