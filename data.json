@@ -1,0 +1,70 @@
+[
+  {
+    "user": "noah",
+    "fights": ["giacomo", "jumaanah"]
+  },
+  {
+    "user": "zahra",
+    "fights": ["samina"]
+  },
+  {
+    "user": "hamza",
+    "fights": []
+  },
+  {
+    "user": "samina",
+    "fights": []
+  },
+  {
+    "user": "richard",
+    "fights": ["anyone on windows", "jumaanah"]
+  },
+  {
+    "user": "ron",
+    "fights": []
+  },
+  {
+    "user": "phil",
+    "fights": ["dafe"]
+  },
+  {
+    "user": "edward",
+    "fights": []
+  },
+  {
+    "user": "caprice",
+    "fights": []
+  },
+  {
+    "user": "jumaanah",
+    "fights": ["noah", "richard", "sukhraj"]
+  },
+  {
+    "user": "sukhraj",
+    "fights": ["jumaanah"]
+  },
+  {
+    "user": "dafe",
+    "fights": ["phil"]
+  },
+  {
+    "user": "bojin",
+    "fights": ["wai lon"]
+  },
+  {
+    "user": "wai lon",
+    "fights": ["bojin"]
+  },
+  {
+    "user": "giacomo",
+    "fights": ["noah"]
+  },
+  {
+    "user": "monia",
+    "fights": ["romeo"]
+  },
+  {
+    "user": "romeo",
+    "fights": ["monia"]
+  }
+]
