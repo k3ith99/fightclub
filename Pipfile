@@ -7,10 +7,10 @@ name = "pypi"
 flask = "*"
 flask-cors = "*"
 flask-login = "*"
-authlib = "*"
 requests = "*"
 jsonify = "*"
 werkzeug = "*"
+pymongo = "*"
 
 [dev-packages]
 pytest = "*"
