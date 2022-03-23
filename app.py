@@ -1,6 +1,7 @@
 from flask import Flask, escape, request, jsonify
 from flask_cors import CORS
 import json
+from werkzeug import exceptions
 
 from db_config import get_collection
  
@@ -26,33 +27,50 @@ def index():
 @app.route("/users", methods=["GET", "POST"])
 def handle_users():
     if request.method == "GET":
-        collection = get_collection()
-        users = collection.find()
-        user_list = list(map(lambda user : user["user"],users))
-        return jsonify(user_list)
+        try: 
+            collection = get_collection()
+            users = collection.find()
+            user_list = list(map(lambda user : user["user"],users))
+            if not len(user_list):
+                raise exceptions.NotFound("No users in the database")
+            return jsonify(user_list), 200
+        except exceptions.NotFound:
+            raise exceptions.NotFound("No users in the database")
+        except:
+            raise exceptions.InternalServerError()
+           
+
     elif request.method == "POST":
         new_user = request.json
+        try:
         #if new_user["user"] not in [item.get('user') for item in data]:
-        collection = get_collection()
-        users = collection.find()
-        user_list = list(map(lambda user : user["user"],users))
-        if new_user["user"] not in user_list:
+            collection = get_collection()
+            users = collection.find()
+            user_list = list(map(lambda user : user["user"],users))
+            if new_user["user"] in user_list:
+                raise exceptions.BadRequest("User already in database")
             new_user["fights"] = []
             collection.insert_one(new_user)
             # data.append({"user": new_user["user"], "fights": []})
-        return f"new user was added", 201
+            return f"new user was added", 201
+        except exceptions.BadRequest:
+            raise exceptions.BadRequest("User already in database")
+        except:
+            raise exceptions.InternalServerError()
+
    
 # get a specific users fights or add a new user to your fights array
 # if that user is not in the data file already, add them
 @app.route("/users/<string:user>/fights", methods=["GET", "POST"])
 def handle_fights(user):
     if request.method == "GET":
-        collection = get_collection()
-        users = collection.find_one({"user" : user})
-        print(users)
+        try: 
+            collection = get_collection()
+            users = collection.find_one({"user" : user})
+            return jsonify(users["fights"]), 200
+        except:
+            raise exceptions.NotFound("User not found")
         #user_list = list(map(lambda user : user["user"],users))
-
-        return jsonify(users["fights"])
            #[item for item in data if item.get('user')==user][0]["fights"]
     elif request.method == "POST":
         new_fighter = request.json
