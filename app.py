@@ -22,22 +22,29 @@ def handle_users():
             user_list = list(map(lambda user : user["user"],users))
             if not len(user_list):
                 raise exceptions.NotFound("No users in the database")
-            return jsonify(user_list)
-        except exceptions.BadRequest:
+            return jsonify(user_list), 200
+        except exceptions.NotFound:
             raise exceptions.NotFound("No users in the database")
         except:
             raise exceptions.InternalServerError()
     elif request.method == "POST":
         new_user = request.json
+        try:
         #if new_user["user"] not in [item.get('user') for item in data]:
-        collection = get_collection()
-        users = collection.find()
-        user_list = list(map(lambda user : user["user"],users))
-        if new_user["user"] not in user_list:
+            collection = get_collection()
+            users = collection.find()
+            user_list = list(map(lambda user : user["user"],users))
+            if new_user["user"] in user_list:
+                raise exceptions.BadRequest("User already in database")
             new_user["fights"] = []
             collection.insert_one(new_user)
             # data.append({"user": new_user["user"], "fights": []})
-        return f"new user was added", 201
+            return f"new user was added", 201
+        except exceptions.BadRequest:
+            raise exceptions.BadRequest("User already in database")
+        except:
+            raise exceptions.InternalServerError()
+
    
 # get a specific users fights or add a new user to your fights array
 # if that user is not in the data file already, add them
@@ -47,13 +54,11 @@ def handle_fights(user):
         try: 
             collection = get_collection()
             users = collection.find_one({"user" : user})
-            if not users.keys():
-                raise exceptions.NotFound("No user wih given name")
-            return jsonify(users["fights"])
-        except exceptions.NotFound:
-            raise exceptions.NotFound("No user wih given name")
+            return jsonify(users["fights"]), 200
         except:
-            raise exceptions.InternalServerError()
+            raise exceptions.NotFound("User not found")
+        #user_list = list(map(lambda user : user["user"],users))
+           #[item for item in data if item.get('user')==user][0]["fights"]
     elif request.method == "POST":
         new_fighter = request.json
         collection = get_collection()
