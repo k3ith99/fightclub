@@ -44,10 +44,17 @@ def handle_fights(user):
        return jsonify([item for item in data if item.get('user')==user][0]["fights"])
     elif request.method == "POST":
         new_fighter = request.json
-        this_user_obj = [item for item in data if item.get('user')==user]
-        this_user_obj[0]["fights"].append(new_fighter["new_fighter"])
+        collection = get_collection()
+        current_user = collection.find({"user": {"$eq": user}})
+        fights = current_user.fights.append(new_fighter["new_fighter"])
+        # this_user_obj = [item for item in data if item.get('user')==user]
+        # this_user_obj[0]["fights"].append(new_fighter["new_fighter"])
         if new_fighter["new_fighter"] not in [item.get('user') for item in data]:
-            data.append({"user": new_fighter["new_fighter"], "fights": [user]})
+            # data.append({"user": new_fighter["new_fighter"], "fights": [user]})
+            collection.find_one_and_update(
+                {"name": user},
+                {"$set": {"fights", fights}}
+            )
         return f"new fight was created", 201
     
 
