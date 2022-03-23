@@ -1,36 +1,32 @@
 from flask import Flask, escape, request, jsonify
 from flask_cors import CORS
-import json
 from werkzeug import exceptions
 
 from db_config import get_collection
- 
-# handle JSON file data
-f = open('data.json')
-data = json.load(f)
-
-# test
-if 'alice' not in [item.get('user') for item in data]:
-    print('that user is not in the data')
-
-f.close()
 
 app = Flask(__name__)
 CORS(app)
 
 # Show all fights
-@app.route("/")
-def index():
-    return jsonify(data) 
+# @app.route("/")
+# def index():
+#     return jsonify(data) 
 
 # get a list of all current users or adds a new user
 @app.route("/users", methods=["GET", "POST"])
 def handle_users():
     if request.method == "GET":
-        collection = get_collection()
-        users = collection.find()
-        user_list = list(map(lambda user : user["user"],users))
-        return jsonify(user_list)
+        try: 
+            collection = get_collection()
+            users = collection.find()
+            user_list = list(map(lambda user : user["user"],users))
+            if not len(user_list):
+                raise exceptions.NotFound("No users in the database")
+            return jsonify(user_list)
+        except exceptions.BadRequest:
+            raise exceptions.NotFound("No users in the database")
+        except:
+            raise exceptions.InternalServerError()
     elif request.method == "POST":
         new_user = request.json
         #if new_user["user"] not in [item.get('user') for item in data]:
@@ -48,23 +44,20 @@ def handle_users():
 @app.route("/users/<string:user>/fights", methods=["GET", "POST"])
 def handle_fights(user):
     if request.method == "GET":
-        collection = get_collection()
-        users = collection.find_one({"user" : user})
-        print(users)
-        #user_list = list(map(lambda user : user["user"],users))
-
-        return jsonify(users["fights"])
-           #[item for item in data if item.get('user')==user][0]["fights"]
+        try: 
+            collection = get_collection()
+            users = collection.find_one({"user" : user})
+            if not users.keys():
+                raise exceptions.NotFound("No user wih given name")
+            return jsonify(users["fights"])
+        except exceptions.NotFound:
+            raise exceptions.NotFound("No user wih given name")
+        except:
+            raise exceptions.InternalServerError()
     elif request.method == "POST":
         new_fighter = request.json
         collection = get_collection()
         current_user = collection.find_one({"user": {"$eq": user}})
-        print(current_user)
-        #fights = current_user.fights.append(new_fighter["new_fighter"])
-        # this_user_obj = [item for item in data if item.get('user')==user]
-        # this_user_obj[0]["fights"].append(new_fighter["new_fighter"])
-        #if new_fighter["new_fighter"] not in [item.get('user') for item in data]:
-            # data.append({"user": new_fighter["new_fighter"], "fights": [user]})
             
         current_user["fights"].append(new_fighter["new_fighter"])
         

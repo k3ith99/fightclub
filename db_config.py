@@ -1,10 +1,12 @@
 def get_collection():
   import pymongo
   from pymongo import MongoClient
+  import certifi
+  
 
   CONN_STRING = "mongodb+srv://noah:noah@cluster0.trdl2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
-  client = MongoClient(CONN_STRING)
+  client = MongoClient(CONN_STRING, tlsCAFile=certifi.where())
 
   return client["fight_club_data"]["user_fights"]
 
