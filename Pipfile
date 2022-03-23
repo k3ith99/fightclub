@@ -11,13 +11,13 @@ requests = "*"
 jsonify = "*"
 werkzeug = "*"
 pymongo = "*"
+dnspython = "*"
+certifi = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-describe = "*"
 pytest-cov = "*"
-certifi = "*"
-dnspython = "*"
 
 [requires]
 python_version = "3.9"
