@@ -1,7 +1,7 @@
 [
   {
     "user": "noah",
-    "fights": ["giacomo", "jumaanah"]
+    "fights": ["giacomo", "jumaanah", "hamza"]
   },
   {
     "user": "zahra",
@@ -9,7 +9,7 @@
   },
   {
     "user": "hamza",
-    "fights": []
+    "fights": ["noah"]
   },
   {
     "user": "samina",
@@ -21,7 +21,7 @@
   },
   {
     "user": "ron",
-    "fights": []
+    "fights": ["sukhraj"]
   },
   {
     "user": "phil",
@@ -29,7 +29,7 @@
   },
   {
     "user": "edward",
-    "fights": []
+    "fights": ["claudia", "jumaanah"]
   },
   {
     "user": "caprice",
@@ -37,11 +37,11 @@
   },
   {
     "user": "jumaanah",
-    "fights": ["noah", "richard", "sukhraj"]
+    "fights": ["noah", "richard", "sukhraj", "edward", "eslint", "tailwind"]
   },
   {
     "user": "sukhraj",
-    "fights": ["jumaanah"]
+    "fights": ["jumaanah", "ron"]
   },
   {
     "user": "dafe",

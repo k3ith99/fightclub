@@ -16,6 +16,8 @@ pymongo = "*"
 pytest = "*"
 pytest-describe = "*"
 pytest-cov = "*"
+certifi = "*"
+dnspython = "*"
 
 [requires]
 python_version = "3.9"
