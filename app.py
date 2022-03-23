@@ -1,6 +1,7 @@
 from flask import Flask, escape, request, jsonify
 from flask_cors import CORS
 import json
+from werkzeug import exceptions
 
 from db_config import get_collection
  
