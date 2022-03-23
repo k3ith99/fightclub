@@ -1,4 +1,4 @@
-def get_db():
+def get_collection():
   import pymongo
   from pymongo import MongoClient
 
@@ -6,12 +6,12 @@ def get_db():
 
   client = MongoClient(CONN_STRING)
 
-  return client['fight_club_data']
+  return client["fight_club_data"]["user_fights"]
 
 if __name__ == "__main__":
   import json
-  dbname = get_db()
-  collection_name = dbname["user_fights"]
+  collection = get_collection()
   file = open("data.json")
   data = json.load(file)
-  collection_name.insert_many(data)
+  collection.insert_many(data)
+

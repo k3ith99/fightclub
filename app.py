@@ -1,6 +1,8 @@
 from flask import Flask, escape, request, jsonify
 from flask_cors import CORS
 import json
+
+from db_config import get_collection
  
 # handle JSON file data
 f = open('data.json')
@@ -11,7 +13,6 @@ if 'alice' not in [item.get('user') for item in data]:
     print('that user is not in the data')
 
 f.close()
-
 
 app = Flask(__name__)
 CORS(app)
@@ -29,7 +30,10 @@ def handle_users():
     elif request.method == "POST":
         new_user = request.json
         if new_user["user"] not in [item.get('user') for item in data]:
-            data.append({"user": new_user["user"], "fights": []})
+            collection = get_collection()
+            new_user["fights"] = []
+            collection.insert_one(new_user)
+            # data.append({"user": new_user["user"], "fights": []})
         return f"new user was added", 201
    
 # get a specific users fights or add a new user to your fights array
