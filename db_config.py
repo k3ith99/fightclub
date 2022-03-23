@@ -2,11 +2,11 @@ def get_db():
   import pymongo
   from pymongo import MongoClient
 
-  CONN_STRING = "mongodb+srv://noah:noah@cluster0.trdl2.mongodb.net/fight_club_data?retryWrites=true&w=majority"
+  CONN_STRING = "mongodb+srv://noah:noah@cluster0.trdl2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
   client = MongoClient(CONN_STRING)
 
-  return client['user_fights']
+  return client['fight_club_data']
 
 if __name__ == "__main__":
   import json
