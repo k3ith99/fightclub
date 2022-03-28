@@ -77,8 +77,6 @@ def handle_fights(user):
         user_list = list(map(lambda user : user["user"],users))
         if new_fighter["new_fighter"] not in user_list:
             collection.insert_one({"user": new_fighter["new_fighter"], "fights": [user]})
-
-        print("new fight was created")
         
         return f"new fight was created", 201
     
